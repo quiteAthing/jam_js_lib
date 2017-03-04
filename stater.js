@@ -15,7 +15,8 @@ stater.onLogIn=function(){
 		this.showOnLogIn();
 		this.setBgts();
 }
-
+//
+//
 stater.onLogOut=function(){
 		this.showOnLogOut();
 		this.setBgts();
