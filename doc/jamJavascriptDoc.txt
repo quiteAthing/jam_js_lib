@@ -1,0 +1,41 @@
+
+物件名稱	mem
+所在檔案	memberFunction.js
+物件說明	會員登入、註冊相關的內容放置於此。包含部分取得註冊內容所需的方法。關於站內信系統，，請見msg。
+內含變數	內容
+cookieKey	用來取得屬於jam的cookie的key
+內涵方法	說明		
+login(info,callback)	info:物件，傳入使用登入功能所需的內容 callback:方法，不管正確或錯誤要執行的功能，接收一個boolean值。
+loggedin(callback)	callback:若已登入，執行callback方法的內容。若無傳入，則回傳true或false
+validateAcc(onValid)	檢查帳號是否已存在。onValid:方法，檢查完後要做的事，會傳入一個boolean值，true代表已存在。
+register(rInfo,callback)	註冊。rInfo：物件，含有註冊需要的資料。callback，取得結果後要執行的內容，不可空白。接收一個boolean值，true表示成功。
+
+物件名稱	stater
+所在檔案	stater.js
+物件說明	一個網站的狀態，主要控制在不同狀況下網站的狀況畫面改變。
+內含變數	說明
+state	網站當下的狀況，以內部物件呼叫。
+state_ni	內容："not_initialized"，尚未完全載入，通常不會見到此狀況，若此狀況出現則表示網頁載入出現問題。
+state_li	內容:"loggedin"，載入完成且已登入。
+state_lt	內容："loggedout"，載入完成，未登入。
+bgt	bgts物件，說明見bgts。
+內含方法	說明
+onLogIn	登入成功後執行的方法，會呼叫showOnLogIn再呼叫setBgts。
+onLogOut	登出成功後執行的方法，會呼叫showOnLogOut再呼叫setBgts。
+setBgts	設定背景工作內容，例如定時檢查站內信信箱等。
+showOnLogIn	登入成功後改變畫面，供設計師操作用的方法，無內容，可直接覆寫。
+showOnLogOut	登出後改變畫面，供設計師操作用的方法，無內容，可直接覆寫。
+
+物件名稱	bgts
+所在檔案	backgroundTasks.js
+物件說明	要在背景中被執行的工作，如定時檢查新站內信之類。也包含設定動作的功能
+內含變數	說明
+taskList	現在正在執行中的背景作業陣列。
+內含方法	說明
+bgtLoggedOut	登出後的背景作業
+bgtLoggedIn	登入後的背景作業
+activateBgt(interval,job)	啟動一項背景作業。interval:執行間隔，單位毫秒。job:要執行的方法。
+備註	可以在這個物件中視需要增加方法。
+
+	
+
