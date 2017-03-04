@@ -33,8 +33,8 @@ mem.login=function(info,callback){
 				
 				//如果FB用戶沒有同意，設定fbUinfo=null;
 				//並將用戶Logout
-				FB.louout(function(){console.log("fbLogOut");});
-				fbUinfo=null;
+				FB.logout(function(){console.log("fbLogOut");});
+				fbUinfo.fbUID="no_authorization";
 				}
 			});
 
@@ -54,7 +54,10 @@ mem.login=function(info,callback){
 		//送出一個xhr到jam的伺服器，然後等待回應
 		//實際運作內容，沒有在伺服器上時請註解
 		
-		
+		if(uInfo.fbUID=="no_authorization"){
+			cbf(false);
+			return;
+		}
 		var xhr=new XMLHttpRequest();
 		xhr.onreadystatechange=function(){
 			switch(xhr.readyState){
@@ -164,6 +167,13 @@ mem.register=function(rInfo,callback){
 		
 	}
 
+	
+
+	
+	
+}
+
+mem.logout=function(callback){
 	
 }
 

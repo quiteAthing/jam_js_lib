@@ -7,13 +7,17 @@ stater.state="not_initialized";
 stater.state_ni="not_initialized";
 stater.state_li="logged_in";
 stater.state_lt="logged_out";
-stater.em_for=true;
+stater.em_for_login=true;
 stater.cookieKey=jam_cookie_key;
 stater.bgt="請傳入bgts物件"
 
-stater.onLogIn=function(){
+stater.onLogIn=function(rst){
+	if(rst){
 		this.showOnLogIn();
 		this.setBgts();
+	}else{
+		console.log("failed to log in");	
+				}
 }
 //
 //
@@ -34,8 +38,8 @@ stater.showOnLogIn=function(){
 
 stater.setBgts=function(){
 	switch(stater.state){
-		case "logged_in":this.bgt.bgtLoggedIn(); break;
-		case "initialized";this.bgt.bgtLoggedOut();break;
+		case "logged_in":bgt.activateBgt(30000,[bgt.bgtLoggedIn]); break;
+		case "initialized";bgt.activateBgt(30000,bgt.bgtLoggedOut);break;
 		default:alert("你是不是哪裡打錯了");
 	}
 	

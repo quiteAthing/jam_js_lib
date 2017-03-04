@@ -10,5 +10,8 @@ bgts.bgtLoggedOut=function(){}
 bgts.bgtLoggedIn=function(){}
 
 bgts.activateBgt=function(interval,job){
-	this.taskList.push(setInterval(job,interval));
+	for(var i=0;i <job.length;i++){
+			this.taskList.push(setInterval(job[i],interval));
+	}
+	
 }
