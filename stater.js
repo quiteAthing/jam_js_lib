@@ -34,8 +34,8 @@ stater.showOnLogIn=function(){
 
 stater.setBgts=function(){
 	switch(stater.state){
-		case "logged_in":bgts.bgtLoggedIn(); break;
-		case "initialized":bgts.bgtLoggedOut();break;
+		case stater.state_li:bgts.bgtLoggedIn(); break;
+		case stater.state_lt:bgts.bgtLoggedOut();break;
 		default:alert("你是不是哪裡打錯了");
 	}
 	
@@ -57,7 +57,7 @@ stater.checkState=function(){
 				newState=this.state_lt;
 			}
 		}else{
-			this.doInit();
+			stater.doInit();
 		}
 		
 	}

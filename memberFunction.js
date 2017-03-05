@@ -64,7 +64,7 @@ mem.login=function(info,callback){
 						var resp=xhr.responseText;
 						var info=JSON.parse(resp);
 						if(info["loginSuccess"]){
-							document.cookie=getCookieString(mem.cookieKey,resp);
+							document.cookie=mem.getCookieString(mem.cookieKey,resp);
 							cbf(true);
 						}
 					}
@@ -85,7 +85,7 @@ mem.login=function(info,callback){
 		/* 
 		if(dummyResponse(true)){
 			//把假資料寫進cookie
-			document.cookie=getCookieString(jam_cookie_key,JSON.stringify(dummyUinfo()));
+			document.cookie=mem.getCookieString(jam_cookie_key,JSON.stringify(dummyUinfo()));
 			cbf(true);
 		}
 	 */
@@ -98,15 +98,12 @@ mem.login=function(info,callback){
 //如果有登入過且未傳入callback則回傳true，接受一個parameter callback,可接受要做的事
 mem.loggedin=function(callback){
 	var cbf=callback;
-		if(getCookieString(this.cookieKey,document.cookie)!= ""){
+		if(mem.getCookieString(this.cookieKey,document.cookie)!= ""){
 			if(cbf !=undefined){cbf(document.cookie);}
 				else{return true;}
 		}
 		else{return false;}
-		function getCookieString(key,str){
-			var cookieString=key+"="+str+";";
-			return cookieString;
-			}
+		
 
 //登入並且檢查cookie及session是否均有效，若其中一方無效則回傳false，若有傳入callback則呼叫callback	
 	
@@ -134,7 +131,7 @@ mem.validateAcc=function(onValid){
 		}
 	}
 	
-	xhr.open("POST","localhost:8080/jam/checkAcc",true);
+	xhr.open("POST",base_url+service_checkACC,true);
 	
 		
 
@@ -160,11 +157,17 @@ mem.register=function(rInfo,callback){
 		}
 	}
 	
-	xhr.open("POST","localhost:8080/jam/register",true);
+	xhr.open("POST",base_url+service_register,true);
 		
 		
 	}
 
 	
 }
+
+
+mem.getCookieString=function(key,str){
+	var cookieString=key+"="+str+";";
+	return cookieString;
+	}
 
