@@ -121,7 +121,8 @@ mem.validLogin=function(){
 mem.validateAcc=function(onValid){
 	//jam/checkAcc
 	var cbf=onValid;
-	var data.acc=document.getElementById(field_ACC).value;
+	var data=new Object();
+	data.acc=document.getElementById(field_ACC).value;
 	var xhr=new XMLHttpRequest();
 	xhr.onreadystatechange=function(resp){
 		switch(xhr.readyState){

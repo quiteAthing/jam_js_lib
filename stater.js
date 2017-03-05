@@ -12,14 +12,14 @@ stater.cookieKey=jam_cookie_key;
 stater.bgt="請傳入bgts物件"
 
 stater.onLogIn=function(){
-		this.showOnLogIn();
-		this.setBgts();
+		stater.showOnLogIn();
+		stater.setBgts();
 }
 //
 //
 stater.onLogOut=function(){
-		this.showOnLogOut();
-		this.setBgts();
+		stater.showOnLogOut();
+		stater.setBgts();
 }
 
 stater.showOnLogOut=function(){
@@ -34,8 +34,8 @@ stater.showOnLogIn=function(){
 
 stater.setBgts=function(){
 	switch(stater.state){
-		case "logged_in":this.bgt.bgtLoggedIn(); break;
-		case "initialized";this.bgt.bgtLoggedOut();break;
+		case "logged_in":bgts.bgtLoggedIn(); break;
+		case "initialized":bgts.bgtLoggedOut();break;
 		default:alert("你是不是哪裡打錯了");
 	}
 	
@@ -44,7 +44,7 @@ stater.setBgts=function(){
 //假設state=not initialized
 stater.doInit=function(){
 	console.log("init something here and then checkState");
-	this.checkState();
+	stater.state=stater.state_lt;
 }
 
 //檢查state
@@ -63,4 +63,3 @@ stater.checkState=function(){
 	}
 	
 	
-}
