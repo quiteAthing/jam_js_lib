@@ -9,23 +9,28 @@ stater.state_li="logged_in";
 stater.state_lt="logged_out";
 stater.em_for_login=true;
 stater.cookieKey=jam_cookie_key;
-stater.bgt="請傳入bgts物件"
 
 stater.onLogIn=function(rst){
 	if(rst){
-		this.showOnLogIn();
-		this.setBgts();
-	}else{
-		console.log("failed to log in");	
-				}
-=======
-stater.onLogIn=function(){
 		stater.showOnLogIn();
 		stater.setBgts();
->>>>>>> master
+		bgts.activateBgt(3000,[bgts.bgtLoggedIn])
+		//下面是正常寫法，這邊因為測試需求所以手動輸入
+		//bgts.activateBgt(sys_bgt_interval,[bgt.bgtLoggedIn])
+		
+	}else{
+		console.log("failed to log in");	
+		}
+	}
+
+stater.onLogIn=function(){
+		stater.showOnLogIn();
+		bgts.activateBgt(3000,[bgts.bgtLoggedOut]);
+		//下面是正常寫法，這邊因為測試需求所以手動輸入
+		//bgts.activateBgt(sys_bgt_interval,[bgt.bgtLoggedIn])
 }
-//
-//
+
+
 stater.onLogOut=function(){
 		stater.showOnLogOut();
 		stater.setBgts();
@@ -40,36 +45,34 @@ stater.showOnLogIn=function(){
 		console.log("state.showOnLogIn 是一個還沒有被實作的方法，用來在登入時改變顯示的內容，會直接在onLogIn中被呼叫");
 }
 
-
-stater.setBgts=function(){
-	switch(stater.state){
-		case "logged_in":bgt.activateBgt(30000,[bgt.bgtLoggedIn]); break;
-		case "initialized";bgt.activateBgt(30000,bgt.bgtLoggedOut);break;
-		default:alert("你是不是哪裡打錯了");
-	}
-	
-}
-
 //假設state=not initialized
 stater.doInit=function(){
 	console.log("init something here and then checkState");
 	stater.state=stater.state_lt;
 }
 
-//檢查state
+//檢查state，如果紀錄的state跟登入狀態不符合，就表示呼叫本方法時該狀態尚未執行完調整畫面的動作。
 stater.checkState=function(){
-	var newState="";
-		if(this.state!=this.state_ni){
-			if(mem.logged_in()){
-				newState=this.state_li;
-			}else{
-				newState=this.state_lt;
-			}
+	if(stater.state!=stater.state_ni){
+		switch(mem.loggedin()){
+			case true :
+				if(stater.state!=stater.state_li){
+					stater.onLogIn();
+					stater.state=stater.state_li;
+					}
+				break;
+			case false :
+				if(stater.state!=stater.state_lt){
+					stater.onLogOut();
+					stater.state=stater.state_lt;
+					}
+				break;
+				}
 		}else{
-			this.doInit();
-		}
-		
+			stater.doInit();
+			}
+	
 	}
-	
-	
-}
+
+
+

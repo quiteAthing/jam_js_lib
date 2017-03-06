@@ -19,22 +19,23 @@ linker element:
 var msg=makeMessage();
 	
 	
-	function(){
+	function makeMessage(){
 		var methods={
 			checkNewMessage : checkNewMessage,//檢查是否有新訊息
 			getMessage :　getMessage,//取得完整訊息
 			sendMessage : sendMessage,//發送訊息給指定使用者
 			setupTest : setupTesting,//設定測試用環境，測試現場實作
 			chkMsgBody : checkMsgBody,//發送訊息前檢查，檢查訊息本文是否符合規定
-			checkMailto :chekMailto ,//發送訊息前檢查或當下，檢查寄件對象是否存在
+			checkMailto :checkMailto ,//發送訊息前檢查或當下，檢查寄件對象是否存在
 			showOnCheck :showOnCheck, //檢查完成後改變顯示內容
 			showOnNewMessage : showNewMessage,//如果有新訊息則將訊息顯示出來
 			checkMsgLength : checkMsgLength, //檢查長度設定
-			udata : null
+			udata : null,
+			isChecking :false //是否正在檢查，如果有，就不要執行第二次。
 			
 		}
 		//檢查有沒有新信，呼叫showOnNewMessage
-		function chekcNewMessage(callback){
+		function checkNewMessage(callback){
 			var req=new Object();
 			var xhr=new XMLHttpRequest();
 			xhr.onreadystatechange=function(resp){
@@ -52,13 +53,17 @@ var msg=makeMessage();
 			
 		}
 		
+		var showOnCheck=null;
+		
+		function showNewMessage(){}
+		
 		
 		//取得訊息本體，取得後呼叫showOnNewMessage將內容寫出
 		function getMessage(){
 			
 		}
 		
-		//發送訊息，info：物件，結構建下方
+		//發送訊息，info：物件，結構見下方
 		/*
 			info={
 				to_user:對象
@@ -73,14 +78,6 @@ var msg=makeMessage();
 		
 		
 		
-		function setupTesting(data){
-			//data{ 
-			//userid : xxxxxxx 
-			//}
-			//udata正常是要從cookie抓。
-			this.udata=data;
-			
-		}
 		
 		//檢查發文本文是否符合規定(字數、奇怪字元...etc)
 		//回傳數字陣列，表示狀況。1201:無問題 1:訊息超過長度 2:訊息空白 3:收件者格式錯誤
@@ -89,6 +86,8 @@ var msg=makeMessage();
 			callback(1201);
 		}
 		//檢查寄件對象是否存在、格式是否正確
+		//這邊可能需要另一個API，把我自己用的測試API也丟進主Repo?
+		
 		function checkMailto(){
 			
 		}

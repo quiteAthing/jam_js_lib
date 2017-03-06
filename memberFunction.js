@@ -33,8 +33,8 @@ mem.login=function(info,callback){
 				
 				//如果FB用戶沒有同意，設定fbUinfo=null;
 				//並將用戶Logout
-				FB.logout(function(){console.log("fbLogOut");});
-				fbUinfo.fbUID="no_authorization";
+				FB.louout(function(){console.log("fbLogOut");});
+				fbUinfo=null;
 				}
 			});
 
@@ -54,10 +54,7 @@ mem.login=function(info,callback){
 		//送出一個xhr到jam的伺服器，然後等待回應
 		//實際運作內容，沒有在伺服器上時請註解
 		
-		if(uInfo.fbUID=="no_authorization"){
-			cbf(false);
-			return;
-		}
+		
 		var xhr=new XMLHttpRequest();
 		xhr.onreadystatechange=function(){
 			switch(xhr.readyState){
@@ -94,6 +91,12 @@ mem.login=function(info,callback){
 	 */
 	}
 
+}
+
+
+mem.logout=function(){
+	//這邊需要增加server log out 的方法
+	document.cookie=mem.getCookieString(mem.cookieKey,"");
 } 
 
 
@@ -166,13 +169,6 @@ mem.register=function(rInfo,callback){
 	}
 
 	
-
-	
-	
-}
-
-mem.logout=function(callback){
-	
 }
 
 
@@ -180,4 +176,28 @@ mem.getCookieString=function(key,str){
 	var cookieString=key+"="+str+";";
 	return cookieString;
 	}
+	
+	
+	
+mem. extractCookie=function(key){
+	var cookie=document.cookie;
+	var dataSet=cookie.split(";");
+	var result=undefined;
+	for(var i=0;i<dataSet.length;i++){
+		var dataPair=dataSet[i].split("=");
+		dataPair[0]=dataPair[0].replace(" ","");
+		if(dataPair[0]==key){
+			result=JSON.parse(dataPair[1]);
+			return result;
+		}
+	}
+		return result;
+}
+	
+	
+	
+	
+	
+	
+	
 
