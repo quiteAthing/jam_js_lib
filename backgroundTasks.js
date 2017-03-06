@@ -3,7 +3,7 @@
 
 var bgts=new Object();
 
-bgt.taskList=new Array();
+bgts.taskList=new Array();
 
 bgts.bgtLoggedOut=function(){}
 

@@ -18,12 +18,17 @@ stater.onLogIn=function(rst){
 	}else{
 		console.log("failed to log in");	
 				}
+=======
+stater.onLogIn=function(){
+		stater.showOnLogIn();
+		stater.setBgts();
+>>>>>>> master
 }
 //
 //
 stater.onLogOut=function(){
-		this.showOnLogOut();
-		this.setBgts();
+		stater.showOnLogOut();
+		stater.setBgts();
 }
 
 stater.showOnLogOut=function(){
@@ -48,7 +53,7 @@ stater.setBgts=function(){
 //假設state=not initialized
 stater.doInit=function(){
 	console.log("init something here and then checkState");
-	this.checkState();
+	stater.state=stater.state_lt;
 }
 
 //檢查state
