@@ -34,10 +34,11 @@ const service_sendMsg="/sendMsg";
 
 
 //網站狀態
-var sta=0;
-const not_initialized=0;
-const sta_notLoggedIn=1;
-const sta_loggedIn=2;
+//sta相關內容移到stater
+//var sta=0;
+//const not_initialized=0;
+//const sta_notLoggedIn=1;
+//const sta_loggedIn=2;
 //const loginURL="";
 //const loginFbURL="";
 //cookie 所屬的網域名稱，測試用
