@@ -27,6 +27,9 @@ const btn_cancel_message="";//取消發送
 const field_mailto="";
 const field_msgbody="";
 const cls_msgbody="nxx_msg";//訊息標籤最外層以此標示
+const servie_mailbox="/messageBox";
+const service_sendMsg="/sendMsg";
+
 
 
 
