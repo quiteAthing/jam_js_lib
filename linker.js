@@ -7,9 +7,10 @@ const btn_logout="#logOut";//登出(不區分))
 const btn_continueFB="#login-fb";//FB登入
 const btn_register="#reg-submit";//註冊按鈕
 const field_ACC="#signup-email";//帳號欄
-const fieldPW="#signup-password";//密碼欄
-const fieldCPW="#signup-password-confirm";//確認密碼
-const fieldRemember_me="#remember-me";//記住我
+const field_PW="#signup-password";//密碼欄
+const field_CPW="#signup-password-confirm";//確認密碼
+const field_Remember_me="#remember-me";//記住我
+const field_newMsg="";//用來顯示新信件數量的東西
 
 
 //會員資料編輯畫面
@@ -29,11 +30,11 @@ const field_msgbody="";
 const cls_msgbody="nxx_msg";//訊息標籤最外層以此標示
 const servie_mailbox="/messageBox";
 const service_sendMsg="/sendMsg";
+const sys_msg_limit=3000;//站內信長度限制
 
 
 
-
-//網站狀態
+//▼半廢棄變數▼
 //sta相關內容移到stater
 //var sta=0;
 //const not_initialized=0;
@@ -43,6 +44,7 @@ const service_sendMsg="/sendMsg";
 //const loginFbURL="";
 //cookie 所屬的網域名稱，測試用
 //const base_path="";
+//▲半廢棄變數▲
 const c_loginType="loginType";
 const c_lt_fb="FB";
 const c_lt_normal="normal";
@@ -55,5 +57,5 @@ const msg_length_limit=3000;
 const service_messsagebox="";
 const show_userName="";
 const show_login="";
-
+const sys_bgt_interval=30000;//背景作業間隔，單位毫秒
 

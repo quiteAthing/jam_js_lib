@@ -14,7 +14,7 @@ stater.onLogIn=function(rst){
 	if(rst){
 		stater.showOnLogIn();
 		stater.setBgts();
-		bgts.activateBgt(sys_bgt_interval,[bgt.bgtLoggedIn])
+		bgts.activateBgt(sys_bgt_interval,[bgts.bgtLoggedIn])
 		
 	}else{
 		console.log("failed to log in");	
@@ -24,7 +24,7 @@ stater.onLogIn=function(rst){
 stater.onLogIn=function(){
 		stater.showOnLogIn();
 		//下面是正常寫法，這邊因為測試需求所以手動輸入
-		bgts.activateBgt(sys_bgt_interval,[bgt.bgtLoggedIn])
+		bgts.activateBgt(sys_bgt_interval,[bgts.bgtLoggedIn])
 }
 
 
