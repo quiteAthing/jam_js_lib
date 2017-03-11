@@ -64,7 +64,7 @@ mem.login=function(info,callback){
 						var resp=xhr.responseText;
 						var info=JSON.parse(resp);
 						if(info["loginSuccess"]){
-							document.cookie=mem.getCookieString(mem.cookieKey,resp);
+							kie.setCookieJson(mem.cookieKey,resp);
 							cbf(true);
 						}
 					}
@@ -85,7 +85,7 @@ mem.login=function(info,callback){
 		/* 
 		if(dummyResponse(true)){
 			//把假資料寫進cookie
-			document.cookie=mem.getCookieString(jam_cookie_key,JSON.stringify(dummyUinfo()));
+			document.cookie=kie.makeCookieString(jam_cookie_key,JSON.stringify(dummyUinfo()));
 			cbf(true);
 		}
 	 */
@@ -96,7 +96,7 @@ mem.login=function(info,callback){
 
 mem.logout=function(){
 	//這邊需要增加server log out 的方法
-	document.cookie=mem.getCookieString(mem.cookieKey,"");
+	kie.cleanCookie(mem.cookieKey,"");
 } 
 
 
@@ -104,7 +104,7 @@ mem.logout=function(){
 //如果有登入過且未傳入callback則回傳true，接受一個parameter callback,可接受要做的事
 mem.loggedin=function(callback){
 	var cbf=callback;
-		if(mem.getCookieString(this.cookieKey,document.cookie)!= ""){
+		if(kie.getCookieString(mem.cookieKey)!= ""){
 			if(cbf !=undefined){cbf(document.cookie);}
 				else{return true;}
 		}
@@ -116,9 +116,6 @@ mem.loggedin=function(callback){
 	
 }
 
-mem.validLogin=function(){
-	console.log("這個方法暫時沒有被使用");
-}
 
 //必須傳入一個function，描述成功或不成功時要做的事情。會傳入true或false
 mem.validateAcc=function(onValid){
@@ -171,30 +168,6 @@ mem.register=function(rInfo,callback){
 	
 }
 
-
-mem.getCookieString=function(key,str){
-	var cookieString=key+"="+str+";";
-	return cookieString;
-	}
-	
-	
-	
-mem. extractCookie=function(key){
-	var cookie=document.cookie;
-	var dataSet=cookie.split(";");
-	var result=undefined;
-	for(var i=0;i<dataSet.length;i++){
-		var dataPair=dataSet[i].split("=");
-		dataPair[0]=dataPair[0].replace(" ","");
-		if(dataPair[0]==key){
-			result=JSON.parse(dataPair[1]);
-			return result;
-		}
-	}
-		return result;
-}
-	
-	
 	
 	
 	

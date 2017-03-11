@@ -32,9 +32,12 @@ var msg=makeMessage();
 			showOnMsgSent : showOnMsgSent,//送出成功後改變畫面
 			udata : null,
 			isChecking :false, //是否正在檢查，如果有，就不要執行第二次。
-			msgLng : 0 //已輸入的訊息長度
+			msgLng : 0, //已輸入的訊息長度
+			msgSelected : [],	//被選取訊息id，每次換頁需要重新初始化。
+			msgRng :  [0,0]//陣列，本頁所有的訊息內容。 0:start 1:end
 			
 		}
+		
 		//檢查有沒有新信，如果有呼叫showOnNewMessage
 		function checkNewMessage(){
 			var req={
