@@ -76,10 +76,9 @@ var msg=makeMessage();
 		
 		
 		//取得訊息本體，取得後呼叫showOnNewMessage將內容寫出
-		function getMessage(){
-			var req=new Object();
-			var info=mem.extractCookie(mem.cookieKey);
-			req={
+		function getMessage(){			
+			var info=kie.getCookieJson(mem.cookieKey);
+			var req={
 				user_id : info.user_id,
 				servType : "getMsg",
 				rngStart : 0
