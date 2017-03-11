@@ -25,9 +25,8 @@
 				login_success : true,
 				user_id : 1,
 				nickname :"Josh"
-					};
-				var resp=JSON.stringify(data);
-				document.cookie=mem.getCookieString(mem.cookieKey,resp);
+					};;
+				kie.setCookieObj(mem.cookieKey,data);
 		}
 			//覆寫stater.showOnLogin
 			stater.showOnLogIn=function(){
