@@ -24,8 +24,9 @@
 			var data={
 				login_success : true,
 				user_id : 1,
-				nickname :"Josh"
-					};;
+				nickname :"Josh",
+				result :23
+					};
 				kie.setCookieObj(mem.cookieKey,data);
 		}
 			//覆寫stater.showOnLogin
@@ -65,8 +66,9 @@
 		//假的取得新信，回傳假的新信物件
 		function fakeMails(req){
 			var k=new Object();
+			k.result=24;
 			k.msgs=[];
-			for(var i=0;i<33;i++){
+			for(var i=0;i<10;i++){
 				var fid=req.rngStart+i;
 				k.msgs.push(
 					{

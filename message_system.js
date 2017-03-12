@@ -33,11 +33,12 @@ var msg=makeMessage();
 			udata : null,
 			isChecking :false, //是否正在檢查，如果有，就不要執行第二次。
 			msgLng : 0, //已輸入的訊息長度
-			msgSelected : [],	//被選取訊息id，每次換頁需要重新初始化。
+			msgAll : [],	//被選取訊息id，每次換頁需要重新初始化。
 			msgRng :  [0,0],//陣列，本頁所有的訊息內容。 0:start 1:end
 			msgSelected:[],//已選取的信件編號，每次換頁時清空。
 			msgTags:[],//製造出來的tag的參考
-			msgEndPage:[]//每一頁的最後一筆訊息的Id
+			msgEndPage:[],//每一頁的最後一筆訊息的Id
+			totalInbox : 0 //信箱內的信件總數
 			
 		}
 		
@@ -95,6 +96,8 @@ var msg=makeMessage();
 					case 4: if(xhr.status==200){
 							var resp=JSON.parse(xhr.responseText);
 							if(resp.result>0){
+								if(resp.result!= -1){
+								msg.totalInbox=resp.result;}
 								showOnNewMessage(resp);
 							}
 							
@@ -167,7 +170,11 @@ var msg=makeMessage();
 				return false;
 				}
 			
+		
+		
 		}
+		
+
 		
 		
 		
