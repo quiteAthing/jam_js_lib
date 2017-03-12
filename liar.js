@@ -47,7 +47,7 @@
 		console.log("fakeMailbox");
 		switch(reqObj.servType){
 			case "newMsg": return fakeNewMsg();break;
-			case "getMsg": return fakeMails();break;
+			case "getMsg": return fakeMails(reqObj);break;
 			default : console.log("你是不是打錯甚麼了");
 		}
 		
@@ -63,16 +63,17 @@
 		
 		
 		//假的取得新信，回傳假的新信物件
-		function fakeMails(){
+		function fakeMails(req){
 			var k=new Object();
 			k.msgs=[];
-			for(var i=0;i<10;i++){
+			for(var i=0;i<33;i++){
+				var fid=req.rngStart+i;
 				k.msgs.push(
 					{
 						sendId : i,
 						sendNk :("nk"+i.toString()),
 						msgBody :"nothing new",
-						msgId : i,
+						msgId : fid,
 						msgTitle :("title  no"+i.toString()),
 						msgDate : "2022 Feb 23 ",
 						msgState: false
