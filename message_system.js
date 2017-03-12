@@ -34,7 +34,10 @@ var msg=makeMessage();
 			isChecking :false, //是否正在檢查，如果有，就不要執行第二次。
 			msgLng : 0, //已輸入的訊息長度
 			msgSelected : [],	//被選取訊息id，每次換頁需要重新初始化。
-			msgRng :  [0,0]//陣列，本頁所有的訊息內容。 0:start 1:end
+			msgRng :  [0,0],//陣列，本頁所有的訊息內容。 0:start 1:end
+			msgSelected:[],//已選取的信件編號，每次換頁時清空。
+			msgTags:[],//製造出來的tag的參考
+			msgEndPage:[]//每一頁的最後一筆訊息的Id
 			
 		}
 		
@@ -77,12 +80,11 @@ var msg=makeMessage();
 		
 		//取得訊息本體，取得後呼叫showOnNewMessage將內容寫出
 		function getMessage(){
-			var req=new Object();
 			var info=mem.extractCookie(mem.cookieKey);
-			req={
+			var req={
 				user_id : info.user_id,
 				servType : "getMsg",
-				rngStart : 0
+				rngStart : msg.msgRng[1]
 				};
 			
 			var xhr=new XMLHttpRequest();
@@ -167,7 +169,6 @@ var msg=makeMessage();
 			
 		}
 		
-
 		
 		
 		
