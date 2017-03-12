@@ -38,8 +38,9 @@ var msg=makeMessage();
 			msgSelected:[],//已選取的信件編號，每次換頁時清空。
 			msgTags:[],//製造出來的tag的參考
 			msgEndPage:[],//每一頁的最後一筆訊息的Id
-			totalInbox : 0 //信箱內的信件總數
-			
+			totalInbox : 0, //信箱內的信件總數
+			msgLocal :0 ,//local已載入的訊息總數。
+			idStr :"msg_Id"
 		}
 		
 		//檢查有沒有新信，如果有呼叫showOnNewMessage
@@ -85,7 +86,7 @@ var msg=makeMessage();
 			var req={
 				user_id : info.user_id,
 				servType : "getMsg",
-				rngStart : 0
+				rngStart : msg.msgRng[0]
 				};
 			
 			var xhr=new XMLHttpRequest();
@@ -159,7 +160,8 @@ var msg=makeMessage();
 				}else{
 					count+=1;
 				}
-			}
+				}
+			
 
 			msg.msgLng=count;
 			
@@ -168,11 +170,15 @@ var msg=makeMessage();
 				return true;
 			}else{
 				return false;
-				}
+		}
+				
+			}
+				return methods;
+		}
+			
 			
 		
 		
-		}
 		
 
 		
@@ -181,7 +187,7 @@ var msg=makeMessage();
 		
 		
 		
-		return methods
-	}
+		
+	
 
 
