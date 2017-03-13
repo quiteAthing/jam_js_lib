@@ -1,27 +1,24 @@
 //這個檔案需要linker.js才能運作
 //這個物件主要負責處理登入及登出等的狀態問題
 
-var stater=new Object();
 
 
 (window.stater=function(){
 	var methods={
-		state, "not_initialized",
+		state : "not_initialized",
 		state_li: "logged_in",
 		state_lt: "logged_out",
 		state_ni:"not_initialized",
 		em_for_login : true,
 		cookieKey : jam_cookie_key,
 		onLogIn :onLogIn,
-		showOnLogIn :null,
-		showOnLogOut :null,
 		doInit :doInit,
 		checkState :checkState
 		};
 	
-	function onLogIn(rst){
+	function onLogIn(rst,cbf){
 		if(rst){
-			stater.showOnLogIn();
+			cbf();
 			bgts.activateBgt(sys_bgt_interval,[bgts.bgtLoggedIn])
 			
 		}else{
@@ -29,8 +26,8 @@ var stater=new Object();
 			}
 	}
 	
-	function onLogOut(){
-		stater.showOnLogOut();
+	function onLogOut(cbf){
+		cbf();
 		stater.setBgts();
 	}
 	
@@ -39,18 +36,18 @@ var stater=new Object();
 		stater.state=stater.state_lt;
 	}
 	
-	function checkState(){
+	function checkState(cbfLogIn,cfLogOut){
 		if(stater.state!=stater.state_ni){
 			switch(mem.loggedin()){
 				case true :
 					if(stater.state!=stater.state_li){
-						stater.onLogIn();
+						onLogIn(cbfLogIn);
 						stater.state=stater.state_li;
 						}
 					break;
 				case false :
 					if(stater.state!=stater.state_lt){
-						stater.onLogOut();
+						onLogOut(cbfLogOut);
 						stater.state=stater.state_lt;
 						}
 					break;

@@ -14,7 +14,7 @@
 
 		}
 		
-		function setJsonCookie(key,obj){
+		function setCookieObj(key,obj){
 			setCookie(key,JSON.stringify(obj));
 		}
 		
