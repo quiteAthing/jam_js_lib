@@ -4,7 +4,7 @@
 		bgtLoggedIn :null,
 		bgtLoggedOut :null,
 		activateBgt : activateBgt,
-		deActivateBgt :deActivateBgt
+		deActivateBgts :deActivateBgts
 		
 		};
 	
