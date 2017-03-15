@@ -22,7 +22,7 @@
 		function deActivateBgts(){
 			var tl=bgts.taskList;
 			if(tl.length>0){
-				for(var i=job.length;i>0 ;i--){
+				for(var i=tl.length;i>0 ;i--){
 					clearInterval(tl[i-1]);
 					}
 				//重設taskList

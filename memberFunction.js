@@ -26,8 +26,8 @@
 		
 	//登入並且檢查cookie及session是否均有效，若其中一方無效則回傳false，若有傳入callback則呼叫callback	
 	function loggedin(cbf){
-		if(kie.getCookieString(mem.cookieKey)!= ""){
-			if(cbf !=undefined){cbf(document.cookie);}
+		if(kie.getCookieStr(mem.cookieKey)!= ""){
+			if(cbf !=null){cbf(document.cookie);}
 				else{return true;}
 		}
 		else{return false;}	

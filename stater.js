@@ -12,15 +12,12 @@
 		em_for_login : true,
 		cookieKey : jam_cookie_key,
 		onLogIn :onLogIn,
-		doInit :doInit,
 		checkState :checkState
 		};
 	
 	function onLogIn(rst,cbf){
 		if(rst){
 			cbf();
-			bgts.activateBgt(sys_bgt_interval,[bgts.bgtLoggedIn])
-			
 		}else{
 			console.log("failed to log in");	
 			}
@@ -31,18 +28,16 @@
 		stater.setBgts();
 	}
 	
-	function doInit(){
-		console.log("init something here and then checkState");
-		stater.state=stater.state_lt;
-	}
+
 	
-	function checkState(cbfLogIn,cfLogOut){
+	function checkState(cbfLogIn,cbfLogOut){
 		if(stater.state!=stater.state_ni){
 			switch(mem.loggedin()){
 				case true :
 					if(stater.state!=stater.state_li){
-						onLogIn(cbfLogIn);
+						onLogIn(true,cbfLogIn);
 						stater.state=stater.state_li;
+						console.log(stater.state);
 						}
 					break;
 				case false :
@@ -52,8 +47,12 @@
 						}
 					break;
 					}
+			}else if(mem.loggedin()){
+				cbfLogIn();
+				stater.state=stater.state_li;
 			}else{
-				stater.doInit();
+				cbfLogOut();
+				stater.state=stater.state_lt;
 				}
 	
 		}

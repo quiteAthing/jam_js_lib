@@ -25,9 +25,11 @@
 			for(var i=0;i<dataSet.length;i++){
 				var dataPair=dataSet[i].split("=");
 				dataPair[0]=dataPair[0].replace(" ","");
-				if(dataPair[0]==key){
+				if(dataPair[0]==key &&dataPair[1]!=""){
 					result=dataPair[1];
 					return result;
+				}else{
+					return "";
 				}
 			}
 		}
@@ -42,7 +44,7 @@
 		}
 		
 		function cleanCookie(key){
-			document.cookie=makeCookieString("key","");
+			document.cookie=makeCookieString(key,"");
 		}
 
 			
