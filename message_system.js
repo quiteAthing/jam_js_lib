@@ -29,12 +29,11 @@ linker element:
 			totalInbox : 0, //信箱內的信件總數
 			msgLocal :0 ,//local已載入的訊息總數。
 			idStr :"msg_Id",
-			deleteMsg :deleteMsg,
+			deleteMsg :deleteMsg, //刪除訊息(畫面與資料庫)
 			isChecking :false,
 			msgOnScr : msgOnScr, //調整訊息在畫面上的顯示狀態
 			nextPage : nextPage,
-			lastPage : lastPage,
-			deleteMSg : deleteMsg, //刪除訊息(畫面與資料庫)
+			lastPage : lastPage, 
 			amt : 10 //每頁要顯示的資料筆數
 		}
 		
@@ -186,9 +185,11 @@ linker element:
 			}
 			
 		function deleteMsg(){
+			console.log("delete");
 			for(var s=0;s<msgSelected.length;s++){
 					console.log(selected[s]);
-			}			
+			}
+				msg.msgOnScr();
 		}
 		
 		
