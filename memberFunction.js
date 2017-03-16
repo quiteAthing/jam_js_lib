@@ -10,6 +10,7 @@
 		loggedin :loggedin,
 		validateAcc : validateAcc,
 		register : register,
+		updateData : updateData
 		
 	};
 	function login(info,cbf){
@@ -136,6 +137,30 @@
 				}
 
 		}
+		
+	function updateData(data,cbf){
+		var xhr=new XMLHttpRequest();
+		xhr.onreadystatechange=function(){
+			
+				switch(xhr.readyState){
+					case 1:xhr.send(data);break;
+					case 4:
+						if(xhr.status==200){
+							var resp=xhr.responseText;
+							var info=JSON.parse(resp);
+							if(info["updateSuccess"]){
+								cbf(true);
+							}
+								}else{
+								console.log("strange  "+xhr.status);
+								cbf(false);
+								}break;	
+				}
+			}
+		xhr.open("POST",base_url+service_update,true);
+	}
+		
+	
 	
 	
 	return methods;

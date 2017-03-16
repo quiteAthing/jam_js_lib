@@ -1,3 +1,5 @@
+﻿
+
 
 物件名稱	mem
 所在檔案	memberFunction.js
@@ -9,22 +11,26 @@ login(info,callback)	info:物件，傳入使用登入功能所需的內容 callb
 loggedin(callback)	callback:若已登入，執行callback方法的內容。若無傳入，則回傳true或false
 validateAcc(onValid)	檢查帳號是否已存在。onValid:方法，檢查完後要做的事，會傳入一個boolean值，true代表已存在。
 register(rInfo,callback)	註冊。rInfo：物件，含有註冊需要的資料。callback，取得結果後要執行的內容，不可空白。接收一個boolean值，true表示成功。
+logout	登出，呼叫伺服器的登出API同時刪除本地cookie。沒有parameterm。
+updataData(data,cbf)	修改會員資料，data:要被修改的資料內容，cbf：回呼涵式，接收一個boolean變數。修改成功為true，否則為false。
+
+
+
 
 物件名稱	stater
 所在檔案	stater.js
 物件說明	一個網站的狀態，主要控制在不同狀況下網站的狀況畫面改變。
 內含變數	說明
-state	網站當下的狀況，以內部物件呼叫。
+state	網站當下的狀況
 state_ni	內容："not_initialized"，尚未完全載入，通常不會見到此狀況，若此狀況出現則表示網頁載入出現問題。
 state_li	內容:"loggedin"，載入完成且已登入。
 state_lt	內容："loggedout"，載入完成，未登入。
-bgt	bgts物件，說明見bgts。
+cookieKey	來自linker，jam cookie使用的key。
 內含方法	說明
-onLogIn	登入成功後執行的方法，會呼叫showOnLogIn再呼叫setBgts。
-onLogOut	登出成功後執行的方法，會呼叫showOnLogOut再呼叫setBgts。
-setBgts	設定背景工作內容，例如定時檢查站內信信箱等。
-showOnLogIn	登入成功後改變畫面，供設計師操作用的方法，無內容，可直接覆寫。
-showOnLogOut	登出後改變畫面，供設計師操作用的方法，無內容，可直接覆寫。
+
+checkState(cbfLogIn,cbfLogOut)	cbfLogIn:以登入的狀態下要執行的方法。cbfLogOut：沒有登入的狀況下要執行的方法。
+
+
 
 物件名稱	bgts
 所在檔案	backgroundTasks.js
@@ -32,10 +38,54 @@ showOnLogOut	登出後改變畫面，供設計師操作用的方法，無內容�
 內含變數	說明
 taskList	現在正在執行中的背景作業陣列。
 內含方法	說明
-bgtLoggedOut	登出後的背景作業
-bgtLoggedIn	登入後的背景作業
+
 activateBgt(interval,job)	啟動一項背景作業。interval:執行間隔，單位毫秒。job:要執行的方法。
+deActivateBgts	關閉所有設定的背景作業並經空takList陣列。
 備註	可以在這個物件中視需要增加方法。
 
-	
+
+
+物件名稱	msg
+所在檔案	message_system.js
+物件說明	與站內信系統相關的所有方法
+內含變數	說明
+msgLng	使用者以輸入的內容長度
+msgAll	數字陣列，現在以載入的所有訊息的資料庫id
+msgRng	陣列，msgRng[0]:頁面現在顯示的第一筆、msgRng[1]：頁面現在顯示的最後一筆id。
+msgSelected	已選取的訊息編號，每次換頁石清空。
+msgEndPage	每一頁的最後一筆訊息的id
+totalInbox	數字，資料庫內信件總數
+msgLocal	數字，已載入的訊息總數。
+idStr	字串，用來組合id用的。
+isChecking	boolean，是否正在檢查有沒有新信，用來避免發送大量請求。
+amt	每頁要顯示的訊息數量(機構尚未完善)
+
+
+內含方法	說明
+checkNewMessage(cbf)	檢查有沒有新信，cbf：回呼函式，接收來自伺服器的回應。
+getMessage(cbf)	取得訊息，接受來自伺服器的回應。
+sendMessage(info,cbf)	送出訊息，info：包含訊息本體的請求物件。cbf：回呼涵式，接受來自伺服器的回應。
+checkMsgBody(message)	檢查訊息本體是否帶有奇怪字元。message：輸入的訊息。
+checkMsgLength(ta)	檢查訊息的總長度，ta：輸入用的textarea。
+deleteMsg(selected)	刪除訊息，會先呼叫伺服器的刪除API，再刪除網頁上的內容。selected:被選取的所有訊息。
+nextPage	下一頁訊息。
+lastPage	上一頁訊息。
+msgOnScr	調整msg的顯示狀況。
+
+
+
+物件名稱	kie
+所在檔案	adv_cookie.js
+
+內含變數	說明
+
+內含方法	說明
+setCookie(key,value)	存入一個value到cookie中，key：cookie的key，value：要存入的value，純字串。
+setCookieObj(key,obj)	存入一個以物件寫入的cookie，key:cookie的key，obj:要寫入的物件。
+getCookieStr(key)	取得key對應到的cookie內容，回傳字串。
+getCookieJson(key)	取得key對應到的cookie內容，回傳一個物件(經JSON.parse處理)
+cleanCookie(key)	刪除key對應到的cookie內容。沒有回傳東西。
+
+
+
 

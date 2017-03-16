@@ -184,13 +184,7 @@ linker element:
 				
 			}
 			
-		function deleteMsg(){
-			console.log("delete");
-			for(var s=0;s<msgSelected.length;s++){
-					console.log(selected[s]);
-			}
-				msg.msgOnScr();
-		}
+
 		
 		
 				
@@ -262,7 +256,7 @@ linker element:
 					return null;
 					}
 					if(confirm("確定刪除所選訊息?")){
-						msg.deleteMsg();
+						
 						for(var r=0;r<amtSelected;r++){
 						var msgId="#"+msg.idStr+msg.msgSelected[r];
 						$(msgId).remove();
@@ -270,6 +264,8 @@ linker element:
 					}
 					
 				}
+				
+				
 				msg.msgOnScreen();
 		}
 		

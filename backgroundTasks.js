@@ -1,8 +1,6 @@
 (window.bgts=function(){
 	var methods={
 		taskList :[],
-		bgtLoggedIn :null,
-		bgtLoggedOut :null,
 		activateBgt : activateBgt,
 		deActivateBgts :deActivateBgts
 		

@@ -55,6 +55,7 @@ const service_checkACC="/checkAcc";
 const service_register="/register";
 const msg_length_limit=3000;
 const service_messsagebox="";
+const service_updateData="";
 const show_userName="";
 const show_login="";
 const sys_bgt_interval=30000;//背景作業間隔，單位毫秒

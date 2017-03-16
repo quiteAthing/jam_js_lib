@@ -11,22 +11,10 @@
 		state_ni:"not_initialized",
 		em_for_login : true,
 		cookieKey : jam_cookie_key,
-		onLogIn :onLogIn,
 		checkState :checkState
 		};
 	
-	function onLogIn(rst,cbf){
-		if(rst){
-			cbf();
-		}else{
-			console.log("failed to log in");	
-			}
-	}
-	
-	function onLogOut(cbf){
-		cbf();
-		stater.setBgts();
-	}
+
 	
 
 	
@@ -35,14 +23,14 @@
 			switch(mem.loggedin()){
 				case true :
 					if(stater.state!=stater.state_li){
-						onLogIn(true,cbfLogIn);
+						cbfLogIn();
 						stater.state=stater.state_li;
 						console.log(stater.state);
 						}
 					break;
 				case false :
 					if(stater.state!=stater.state_lt){
-						onLogOut(cbfLogOut);
+						cbfLogOut();
 						stater.state=stater.state_lt;
 						}
 					break;
