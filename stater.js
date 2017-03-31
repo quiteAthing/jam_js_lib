@@ -14,9 +14,6 @@
 		checkState :checkState
 		};
 	
-
-	
-
 	
 	function checkState(cbfLogIn,cbfLogOut){
 		if(stater.state!=stater.state_ni){

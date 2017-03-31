@@ -17,6 +17,7 @@
 	 
 	 function fakeLogin(){
 		 document.cookie=kie.setCookieObj(jam_cookie_key,fakeCookie);	 
+		 localStorage.setItem("requested_user","isMySelf");
 	 }
 	 
 	 var fakeCookie={
@@ -36,7 +37,7 @@
 				sender: 112,//寄件者id
 				toUser :"johnny2" ,//傳送對象
 				title : "Hello",//訊息標題
-				msg : "Lorem ipsum" ,//訊息本體
+				msg : "Lorem ipsum" //訊息本體
 			
 			 }
 			 

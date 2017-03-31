@@ -1,17 +1,3 @@
-//這個腳本需要用到linker.js
-//不使用jquery
-
-
-
-/*
-linker element:
-	service_messagebox: chkMessage
-	sys_msg_limit :訊息最大長度，整數
-
-*/
-
-
-
 
 (window.msg=function(){
 		var methods={
@@ -25,16 +11,18 @@ linker element:
 			msgAll : [],	//所有訊息id，每次換頁需要重新初始化。
 			msgRng :  [0,0],//陣列，本頁所有的訊息內容。 0:start 1:end
 			msgSelected:[],//已選取的信件編號，每次換頁時清空。
-			msgEndPage:[],//每一頁的最後一筆訊息的Id
+			msgEndPage:0,//當頁的最後一筆訊息的Id
 			totalInbox : 0, //信箱內的信件總數
 			msgLocal :0 ,//local已載入的訊息總數。
 			idStr :"msg_Id",
 			deleteMsg :deleteMsg, //刪除訊息(畫面與資料庫)
-			isChecking :false,
+			deleteCurMsg :deleteCurMsg, //刪除當下正在閱讀的訊息
+			isChecking :false,	//是否正在檢查新信(避免多次觸發)
 			msgOnScr : msgOnScr, //調整訊息在畫面上的顯示狀態
 			nextPage : nextPage,
 			lastPage : lastPage, 
-			amt : 10 //每頁要顯示的資料筆數
+			amt : 10, //每頁要顯示的資料筆數
+			isSending : false //訊息是否已傳送且未獲得回應(避免多次傳送使用)
 		}
 		
 		//檢查有沒有新信，如果有呼叫callback function
@@ -54,7 +42,8 @@ linker element:
 								console.log("no more");
 								break;
 							}
-							xhr.send();
+							xhr.setRequestHeader("Content-Type","application/json");
+							xhr.send(JSON.stringify(req));
 							msg.isChecking=true;
 							break;
 					case 4: if(xhr.status==200){
@@ -79,13 +68,12 @@ linker element:
 								break;
 				}
 			}
-				xhr.open("POST",base_url+service_mailbox,true);
+				xhr.open("POST",base_url+service_messagebox,true);
 				msg.isChecking=true;
 				
 				console.log(msg.isChecking);
-			}
-			
-			
+		}	
+
 		
 		
 		
@@ -98,12 +86,14 @@ linker element:
 				servType : "getMsg",
 				rngStart : msg.msgRng[0]
 				};
+				
 			
 			var xhr=new XMLHttpRequest();
 			xhr.onreadystatechange=function(res){
 				
 				switch(xhr.readyState){
-					case 1:xhr.send(req);break;
+					case 1:xhr.send(JSON.stringify(req));
+							break;
 					case 4: if(xhr.status==200){
 							var resp=JSON.parse(xhr.responseText);
 							if(resp.result>0){
@@ -116,29 +106,42 @@ linker element:
 					default :console.log(xhr.status);break;
 				}
 			}
-			xhr.open("POST",base_url+service_mailbox,true);
+			xhr.open("POST",base_url+service_messagebox,true);
 			
 			
 		}
 		
 		//發送訊息，由btn_send_ms.onclick呼叫，info，由外部提供。info：物件，結構見下方
 		function sendMessage(info,cbf){
+			console.log("msg.sendMessage :" +info);
+			if(msg.isSending){return;}
+			console.log("b");
 			var req=new Object();
 			var xhr=new XMLHttpRequest();
 			xhr.onreadystatechange=function(res){
 				
 				switch(xhr.readyState){
-					case 1:xhr.send();break;
+					case 1:
+					xhr.setRequestHeader("Content-type", "applicatoin/json");
+					xhr.send(JSON.stringify(info));
+					console.log(info);
+					break;
 					case 4: if(xhr.status==200){
 							var resp=JSON.parse(xhr.responseText);
-							if(resp.result>0){
+							if(resp.sent){
+								msg.isSending=false;
 								cbf(resp);
-							}
+								
+							}else{
+								console.log("wrong  :"+xhr.status);
+								msg.isSending=false;
+								}
 							
 					}break;
 					default :console.log(xhr.status);break;
 				}
 			}
+			
 			xhr.open("POST",base_url+service_sendMsg,true);
 			
 		}
@@ -146,11 +149,19 @@ linker element:
 		
 		
 		
-//檢查訊息是否有弊田欄位沒有田寫
+		//檢查訊息是否有必填欄位沒有田寫
 		function checkMsgBody(message){
-			console.log("checked");
-			return true;
-			
+			console.log(message);
+			chkMsgLng(message.article);
+			console.log("checkMsgBody");
+			if(message.receiver==null ||message.title==null|| msg.msgLng==0){
+				console.log("receiver"+message.reciver);
+				console.log("title"+message.title);
+				console.log("length"+msg.msgLng);
+				return false;
+			}else{
+				return true;
+			}
 		}
 		//檢查寄件對象是否存在、格式是否正確
 		//這邊可能需要另一個API，把我自己用的測試API也丟進主Repo?
@@ -163,26 +174,35 @@ linker element:
 		//檢查訊息長度，並回傳長度(單位：字元數)，由textarea.onkeyup呼叫
 		function checkMsgLength(ta){
 		var cmt=ta.value;
-			var count=0;	
-			for(var i=0;i< cmt.length;i++){
-				if(cmt.charCodeAt(i)>127){
+		console.log("chkMessageLen");
+		console.log("ta.value  "+ta.value);
+		var count=chkMsgLng(cmt);
+			if(count<sys_msg_limit){
+				return true;
+			}else if(count ==0){
+				return false;
+			}else{
+				return false;
+			}
+				
+			}
+			
+		function chkMsgLng(ctn){
+			var count=0;
+			console.log(ctn.length);
+			for(var i=0;i< ctn.length;i++){
+				if(ctn.charCodeAt(i)>127){
 					count+=3;
 				}else{
 					count+=1;
 				}
 			}
 			
+			msg.msgLng=count;
+			console.log("ret");
+			return count;
 
-			this.msgLng=count;
-			
-			
-			if(count<sys_msg_limit){
-				return true;
-			}else{
-				return false;
 		}
-				
-			}
 			
 
 		
@@ -246,27 +266,62 @@ linker element:
 				}
 				
 			}
+			
+			
+		function deleteCurMsg(curMsg){
+			var msgId="#"+msg.idStr+curMsg;
+			console.log(msgId);
+			$(msgId).remove();
+			deleteMsgReq([curMsg]);
+			msg.msgAll.splice(msg.msgAll.indexOf(curMsg),1);
+			msg.msgSelected.splice(msg.msgSelected.indexOf(curMsg),1);
+			msg.msgOnScr();
+		}
 				
 				
 		
 		
-		function deleteMsg(selected){
-				var amtSelected=msg.msgSelected.length;
-				if(msg.msgSelected.length==0){
-					return null;
-					}
+		function deleteMsg(){
+			var msgId=null;
+			var amtSelected=msg.msgSelected.length;
+					if(msg.msgSelected.length==0){
+						console.log("msgselecte.Length ==0")
+						return null;}
 					if(confirm("確定刪除所選訊息?")){
-						
-						for(var r=0;r<amtSelected;r++){
-						var msgId="#"+msg.idStr+msg.msgSelected[r];
-						$(msgId).remove();
-						msg.msgSelected.splice(r,1);
+						deleteMsgReq(msg.msgSelected);
+						for(var r=0;r<msg.msgSelected.length;r++){
+							var msgId="#"+msg.idStr+msg.msgSelected[r];
+							$(msgId).remove();
+							console.log("remove    "+msgId);
+						}
+						msg.msgSelected=[];
 					}
 					
+				msg.msgOnScr();
+		}
+		
+		function deleteMsgReq(msgs){
+			var xhr=new XMLHttpRequest();
+			var delReq={
+					msgDelete :msgs
+			};
+			xhr.onreadystatechange=function(resp){
+				switch(xhr.readyState){
+					case 1:
+						xhr.setRequestHeader("Content-Type","application/json");
+						xhr.send(JSON.stringify(delReq));
+						console.log("del sent");
+						break;
+					case 4:
+						var rst=JSON.parse(resp.responseText);
+						console.log("rst.delete : "+resp.delSuccess);
+						break;
+				
 				}
 				
-				
-				msg.msgOnScreen();
+			}
+			xhr.open("POST",base_url+"/deleteMsg",true);
+			
 		}
 		
 		function msgOnScr(){
@@ -277,11 +332,14 @@ linker element:
 					//把抓回來，需要顯示出來的訊息設成可見
 				if(onScr==0 || onScr<10){
 					for(var p=0;p<count;p++){
-						console.log("asvs");
-						$(onHid[p]).css("display","block");
-						$(onHid[p]).attr("value","onPage");
-						$(onHid[p]).attr("value","onDisplay");
-					}		
+						var a=$(onHid[p]);
+						a.css("display","block");
+						a.attr("value","onDisplay");
+						a.find(":checkbox").prop("checked",false)
+						
+					}
+					
+					
 				}
 		}
 		
